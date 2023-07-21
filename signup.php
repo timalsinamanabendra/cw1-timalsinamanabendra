@@ -1,3 +1,47 @@
+
+<?php
+@include 'config.php';
+
+    if(isset($_POST['submit'])){
+        header('Location: Signup view.php');
+    
+};
+
+if(isset($_POST['submit'])){
+
+$firstname = mysqli_real_escape_string($conn, $_POST['firstname']);
+$lastname = mysqli_real_escape_string($conn, $_POST['lastname']);
+$email = mysqli_real_escape_string($conn, $_POST['email']);
+$pnumber = mysqli_real_escape_string($conn, $_POST['pnumber']);
+$password = md5($_POST['password']);
+$usertype = $_POST['usertype'];
+
+$select = "SELECT * FROM signup where email ='$email' && password = '$password'";
+
+$result = mysqli_query($conn, $select);
+
+if(mysqli_num_rows($result) > 0){
+
+      $error[] = 'user already exist!';
+
+   }
+   else{
+    $insert ="INSERT INTO signup(firstname, lastname, email, pnumber, password, usertype) VALUES('$firstname','$lastname','$email','$pnumber','$password','$usertype')";
+    mysqli_query($conn, $insert);
+    header('location:login.php');
+
+    }
+
+};
+
+
+
+
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,35 +69,29 @@
             <a href="https://www.instagram.com/prash9356/" target="_blank" class="instagram"> <i class="fa-brands fa-instagram"></i></a>
             <a href="https://www.linkedin.com/in/manabendra-timalsina-ab147a277/" target="_blank" class="linkin"><i class="fa-brands fa-linkedin-in"></i></a>
         </div>
-        <div class="other-links">
-            <a href="login.php"><button id="btn-login">Login</button></a>
-            <a href="signup.php" ><button id="btn-signup">Sign up</button></a>
-            <i class="fa-solid fa-user"></i>
-            <i class="fa-solid fa-cart-shopping"></i>
-        </div>
     </div>
     <!-- top navbar -->
 
         <!-- navbar -->
         <nav class="navbar navbar-expand-lg" id="navbar">
             <div class="container-fluid">
-              <a class="navbar-brand" href="#" style="color: black;">EE</a>
+              <a class="navbar-brand" href="home.php" style="color: black;">EE</a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span><i class="fa-solid fa-bars" style="color: white;"></i></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                    <a class="nav-link active" aria-current="page" href="home.php">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="clothe.html">Clothe</a>
+                    <a class="nav-link" href="product.php">Product</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="about.html">About Us</a>
+                    <a class="nav-link" href="about.php">About Us</a>
                   </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Contact Us</a>
+                    <a class="nav-link" href="contact.php">Contact Us</a>
                   </li>
                 </ul>
                
@@ -85,7 +123,7 @@
                         <input type="password" placeholder="Enter New Password" name="password"  required><br>
                         <div>User Type    <select style="margin-top: 10px;" name="usertype" required>
                             <option value="" disabled selected hidden>Seclect</option>
-                            <option value="seller">seller</option>
+                            <option value="customer">customer</option>
                         </select>
                         </div>
                         
