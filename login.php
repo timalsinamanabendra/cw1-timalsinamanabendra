@@ -1,3 +1,42 @@
+<?php
+@include 'config.php';
+
+if(isset($_POST['submit'])){
+
+$email = mysqli_real_escape_string($conn, $_POST['email']);
+$password = md5($_POST['password']);
+
+$select ="SELECT * FROM signup where email= '$email' && password='$password'";
+$result = mysqli_query($conn, $select);
+
+if(mysqli_num_rows($result) > 0){
+
+    $row = mysqli_fetch_array($result);
+    
+    if($row['usertype'] == 'admin')
+    {
+        $_SESSION['admin_name'] = $row['name'];
+        header('location:admin_home.php');
+
+    }
+    elseif($row['usertype'] == 'customer')
+    {
+        $_SESSION['customer_name'] = $row['name'];
+        header('location:customer_home.php');
+    }
+    elseif($row['usertype'] == 'seller')
+    {
+        $_SESSION['seller_name'] = $row['name'];
+        header('location:seller_home.php');
+    }
+}
+else{
+    $error[] = 'incorrect username or password!';
+}
+
+};
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,43 +64,31 @@
             <a href="https://www.instagram.com/prash9356/" target="_blank" class="instagram"> <i class="fa-brands fa-instagram"></i></a>
             <a href="https://www.linkedin.com/in/manabendra-timalsina-ab147a277/" target="_blank" class="linkin"><i class="fa-brands fa-linkedin-in"></i></a>
         </div>
-        <div class="other-links">
-            <a href="login.php"><button id="btn-login">Login</button></a>
-            <a href="signup.php" ><button id="btn-signup">Sign up</button></a>
-
-            <i class="fa-solid fa-user"></i>
-            <i class="fa-solid fa-cart-shopping"></i>
-        </div>
     </div>
     <!-- top navbar -->
 
         <!-- navbar -->
         <nav class="navbar navbar-expand-lg" id="navbar">
             <div class="container-fluid">
-              <a class="navbar-brand" href="#" style="color: black;">EE</a>
+              <a class="navbar-brand" href="home.php" style="color: black;">EE</a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span><i class="fa-solid fa-bars" style="color: white;"></i></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                    <a class="nav-link active" aria-current="page" href="home.php">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="product.html">Product</a>
+                    <a class="nav-link" href="product.php">Product</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="about.html">About Us</a>
+                    <a class="nav-link" href="about.php">About Us</a>
                   </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Contact Us</a>
+                    <a class="nav-link" href="contact.php">Contact Us</a>
                   </li>
                 </ul>
-               
-                <form class="d-flex">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-success" type="submit" id="search-btn">Search</button>
-                </form>
               </div>
             </div>
           </nav>
@@ -79,10 +106,18 @@
                 </div>
                 <div class="col-md-8" id="side2">
                     <h3>Login Account</h3>
+                    <div class="inp">
+                              <?php
+                                  if(isset($error)){
+                                 foreach($error as $error){
+                                    echo '<span class="error-msg">'.$error.'</span>';
+                                 };
+                              };
+                              ?>
                         <input type="email" name="email" placeholder="Enter your Email" required>
-                        <input type="text" name="password" placeholder="Password" required>
+                        <input type="password" name="password" placeholder="Password" required>
                     </div>
-                    <div id="login" ><button type="submit" name="submit" value="loginin now">LOGIN</button></div>
+                    <div id="login" ><button type="submit" name="submit" value="login now">LOGIN</button></div>
                 </div>
             </div>
         </div>
