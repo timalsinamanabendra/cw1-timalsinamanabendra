@@ -1,44 +1,48 @@
 <?php
+
 @include 'config.php';
 
 if(isset($_POST['submit'])){
 
+
 $email = mysqli_real_escape_string($conn, $_POST['email']);
 $password = md5($_POST['password']);
 
-$select ="SELECT * FROM signup where email= '$email' && password='$password'";
-$result = mysqli_query($conn, $select);
 
-if(mysqli_num_rows($result) > 0){
+   $select = " SELECT * FROM signup WHERE email = '$email' && password = '$password' ";
 
-    $row = mysqli_fetch_array($result);
-    
-    if($row['usertype'] == 'admin')
-    {
-        $_SESSION['admin_name'] = $row['name'];
-        header('location:admin_home.php');
+   $result = mysqli_query($conn, $select);
 
-    }
-    elseif($row['usertype'] == 'customer')
-    {
-        $_SESSION['customer_name'] = $row['name'];
-        header('location:customer_home.php');
-    }
-    elseif($row['usertype'] == 'seller')
-    {
-        $_SESSION['seller_name'] = $row['name'];
-        header('location:seller_home.php');
-    }
-}
-else{
-    $error[] = 'incorrect username or password!';
-}
+   if(mysqli_num_rows($result) > 0){
+
+      $row = mysqli_fetch_array($result);
+
+      if($row['usertype'] == 'admin'){
+
+         $_SESSION['admin_name'] = $row['firstname'];
+         header('location:admin_home.php');
+
+      }elseif($row['usertype'] == 'customer'){
+
+         $_SESSION['customer_name'] = $row['firstname'];
+         header('location:customer_home.php');
+
+      }
+      elseif($row['usertype'] == 'seller'){
+
+         $_SESSION['seller_name'] = $row['firstname'];
+         header('location:seller_home.php');
+
+      }
+     
+   }else{
+      $error[] = 'incorrect email or password!';
+   }
 
 };
-
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -56,7 +60,6 @@ else{
     <!-- fonts links -->
 </head>
 <body>
-
     <!-- top navbar -->
     <div class="top-navbar">
         <div class="top-icons">
@@ -64,9 +67,12 @@ else{
             <a href="https://www.instagram.com/prash9356/" target="_blank" class="instagram"> <i class="fa-brands fa-instagram"></i></a>
             <a href="https://www.linkedin.com/in/manabendra-timalsina-ab147a277/" target="_blank" class="linkin"><i class="fa-brands fa-linkedin-in"></i></a>
         </div>
+        <div class="other-links">
+        </div>
     </div>
     <!-- top navbar -->
 
+    <div class="home-section">
         <!-- navbar -->
         <nav class="navbar navbar-expand-lg" id="navbar">
             <div class="container-fluid">
@@ -94,40 +100,26 @@ else{
           </nav>
         <!-- navbar -->
 
-
-        <!-- login -->
-        <form action="" method="post">
+            <!-- login -->
+            <form action="" method="post">
         <div class="container login">
             <div class="row">
                 <div class="col-md-4" id="side1">
-                    <h3>Hello Friend!</h3>
-                    <p>Create New Account</p>
+                    <h3>Hi!!!!! If u don't have account account then click on signup</h3>
                     <div id="btn"><a href="signup.php">Sign up</a></div>
                 </div>
                 <div class="col-md-8" id="side2">
-                    <h3>Login Account</h3>
+                    <h3>Login</h3>
                     <div class="inp">
-                              <?php
-                                  if(isset($error)){
-                                 foreach($error as $error){
-                                    echo '<span class="error-msg">'.$error.'</span>';
-                                 };
-                              };
-                              ?>
-                        <input type="email" name="email" placeholder="Enter your Email" required>
-                        <input type="password" name="password" placeholder="Password" required>
+                              <input type="email" name="email" required placeholder="Enter Your Email">
+                              <input type="password" name="password" required placeholder="Enter Your password">
                     </div>
-                    <div id="login" ><button type="submit" name="submit" value="login now">LOGIN</button></div>
-                </div>
+<div id="login"><button type="submit" class="btn btn-danger" value="login now" name="submit">Login</button>  </div>              </div>
             </div>
-        </div>
-        </form>
+        </div></form>
         <!-- login -->
 
-
-
-
-<!-- footer -->
+        <!-- footer -->
 <footer id="footer" style="margin-top: 50px;">
 <div class="footer-top">
     <div class="container">
@@ -145,18 +137,14 @@ else{
             </div>
             <div class="col-lg-3 col-md-6 footer-links">
                 <ul>
-                  <li><a href="index.html">Home</a></li>
-                  <li><a href="about.html">About</a></li>
-                  <li><a href="contact.html">Contact</a></li>
+                  <li><a href="home.php">Home</a></li>
+                  <li><a href="about.php">About</a></li>
+                  <li><a href="contact.php">Contact</a></li>
                 </ul>
             </div>
             <div class="col-lg-3 col-md-6 footer-links">
                 <h4>Our Services</h4>
                 <p>We are here to delivert products in time!!...</p>
-                <ul>
-                    <li><a href="#">Luxirious Products</a></li>
-                    <li><a href="#">Home Appliance</a></li>
-                </ul>
             </div>
             <div class="col-lg-3 col-md-6 footer-links">
                 <h4>Our Social World</h4>
@@ -181,16 +169,13 @@ else{
 </div>
 </footer>
 <!-- footer -->
-
-<a href="#" class="arrow"><i><img src="./image/up-arrow.png" alt="" width="50px"></i></a>
-
-
 <script>
     if ( window.history.replaceState ) {
         window.history.replaceState( null, null, window.location.href );
     }
 </script>
 
+<script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 </body>
