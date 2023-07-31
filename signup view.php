@@ -33,13 +33,6 @@
         <!-- login -->
 
 
-
-
-
-
-
-
-
 <!-- footer -->
 <footer id="footer" style="margin-top: 50px;">
 <div class="footer-top">
@@ -61,17 +54,11 @@
                   <li><a href="index.html">Home</a></li>
                   <li><a href="about.html">About</a></li>
                   <li><a href="contact.html">Contact</a></li>
-                  <li><a href="#">Services</a></li>
-                  <li><a href="#">Privacy policay</a></li>
                 </ul>
             </div>
             <div class="col-lg-3 col-md-6 footer-links">
                 <h4>Our Services</h4>
                 <p>We are here to delivert products in time!!...</p>
-                <ul>
-                    <li><a href="#">Luxirious Products</a></li>
-                    <li><a href="#">Home Appliance</a></li>
-                </ul>
             </div>
             <div class="col-lg-3 col-md-6 footer-links">
                 <h4>Our Social World</h4>
